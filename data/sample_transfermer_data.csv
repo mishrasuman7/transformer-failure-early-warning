@@ -1,0 +1,5 @@
+transformer_id,load_percent,oil_temp_c,rainfall_mm,age_years
+T001,65,55,2.1,8
+T002,92,78,15.3,18
+T003,40,45,0,5
+T004,88,72,22.5,20
