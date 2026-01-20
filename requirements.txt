@@ -1,0 +1,21 @@
+# Core
+python-dotenv
+
+# Data handling
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+joblib
+
+# Backend API
+fastapi
+uvicorn
+
+# Visualization
+plotly
+matplotlib
+
+# Database
+sqlalchemy
