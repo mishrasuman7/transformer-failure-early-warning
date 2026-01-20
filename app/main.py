@@ -1,5 +1,7 @@
 import pandas as pd
 import streamlit as st
+import plotly.express as px
+
 
 st.set_page_config(page_title="Transformer Early Warning", layout="wide")
 st.title("AI-Based Transformer Failure Early Warning System")
@@ -54,6 +56,23 @@ col1.metric("Total Transformers", total)
 col2.metric("High Risk", high)
 col3.metric("Medium Risk", medium)
 col4.metric("Low Risk", low)
+
+st.divider()
+st.subheader("Risk Level Distribution")
+
+risk_counts = data["risk_level"].value_counts().reset_index()
+risk_counts.columns = ["risk_level", "count"]
+
+fig = px.bar(
+    risk_counts,
+    x="risk_level",
+    y="count",
+    color="risk_level",
+    title="Number of Transformers by Risk Level",
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
 
 # Filters
 
