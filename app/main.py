@@ -55,6 +55,21 @@ col2.metric("High Risk", high)
 col3.metric("Medium Risk", medium)
 col4.metric("Low Risk", low)
 
+# Filters
+
+st.sidebar.header("Filters")
+
+selected_risk = st.sidebar.selectbox(
+    "Select Risk Level",
+    options=["ALL", "HIGH", "MEDIUM", "LOW"]
+)
+
+filtered_data = data.copy()
+
+if selected_risk != "ALL":
+    filtered_data = filtered_data[filtered_data["risk_level"] == selected_risk]
+
+
 st.subheader("Transformer Risk Overview")
 
 def color_risk(val):
@@ -65,5 +80,5 @@ def color_risk(val):
     else:
         return "background-color: #7ddc7d;"
     
-styled_df = data.style.applymap(color_risk, subset=["risk_level"])
+styled_df = filtered_data.style.applymap(color_risk, subset=["risk_level"])
 st.dataframe(styled_df, use_container_width=True)
