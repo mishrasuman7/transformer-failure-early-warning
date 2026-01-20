@@ -1,16 +1,8 @@
 import pandas as pd
 import streamlit as st
 
-# Page config
-
-st.set_page_config(
-    page_title="Transformer Early Warning",
-    layout="wide"
-)
-
+st.set_page_config(page_title="Transformer Early Warning", layout="wide")
 st.title("AI-Based Transformer Failure Early Warning System")
-
-# Risk logic
 
 def calculate_risk(row):
     risk = 0
@@ -46,12 +38,11 @@ def risk_level(score):
     else:
         return "LOW"
 
-# Load data
+
 data = pd.read_csv("data/sample_transformer_data.csv")
 data["risk_score"] = data.apply(calculate_risk, axis=1)
 data["risk_level"] = data["risk_score"].apply(risk_level)
 
-# KPI SECTION
 
 total = len(data)
 high = (data["risk_level"] == "HIGH").sum()
@@ -64,10 +55,8 @@ col2.metric("High Risk", high)
 col3.metric("Medium Risk", medium)
 col4.metric("Low Risk", low)
 
-st.divider()
+st.subheader("Transformer Risk Overview")
 
-
-# Color styling
 def color_risk(val):
     if val == "HIGH":
         return "background-color: #ff4d4d; color: white;"
@@ -75,8 +64,6 @@ def color_risk(val):
         return "background-color: #ffd966;"
     else:
         return "background-color: #7ddc7d;"
-
+    
 styled_df = data.style.applymap(color_risk, subset=["risk_level"])
-
-st.subheader("Transformer Risk Overview")
 st.dataframe(styled_df, use_container_width=True)
