@@ -59,12 +59,27 @@ col4.metric("Low Risk", low)
 
 st.sidebar.header("Filters")
 
+# Risk Level filter
 selected_risk = st.sidebar.selectbox(
     "Select Risk Level",
     options=["ALL", "HIGH", "MEDIUM", "LOW"]
 )
 
 filtered_data = data.copy()
+
+# Transformer ID filter
+transformer_ids = ["ALL"] + sorted(data["transformer_id"].unique().tolist())
+
+selected_transformer = st.sidebar.selectbox(
+    "Select Transformer ID",
+    options=transformer_ids
+)
+
+if selected_transformer != "ALL":
+    filtered_data = filtered_data[
+        filtered_data["transformer_id"] == selected_transformer
+    ]
+
 
 if selected_risk != "ALL":
     filtered_data = filtered_data[filtered_data["risk_level"] == selected_risk]
