@@ -73,6 +73,25 @@ fig = px.bar(
 
 st.plotly_chart(fig, use_container_width=True)
 
+st.divider()
+st.subheader("Load vs Oil Temperature Analysis")
+
+scatter_fig = px.scatter(
+    data,
+    x="load_percent",
+    y="oil_temp_c",
+    color="risk_level",
+    size="risk_score",
+    hover_data=["transformer_id", "age_years", "rainfall_mm"],
+    title="Transformer Load vs Oil Temperature",
+    labels={
+        "load_percent": "Load (%)",
+        "oil_temp_c": "Oil Temperature (°C)"
+    }
+)
+
+st.plotly_chart(scatter_fig, use_container_width=True)
+
 
 # Filters
 
