@@ -3,22 +3,58 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-
 import pandas as pd
 import streamlit as st
 import plotly.express as px
 from ml.predict import predict_risk
 
+# PAGE CONFIG & SIDEBAR
+
 st.set_page_config(page_title="Transformer Early Warning", layout="wide")
 st.title("AI-Based Transformer Failure Early Warning System")
 
+st.sidebar.header("Controls")
 
-# Load data
+risk_mode = st.sidebar.radio(
+    "Risk Calculation Mode",
+    ["Rule-Based", "AI-Based"]
+)
 
-data = pd.read_csv("data/sample_transformer_data.csv")
+# FUNCTION DEFINITIONS
+
+def calculate_risk(row):
+    risk = 0
+    if row["load_percent"] > 80:
+        risk += 30
+    elif row["load_percent"] > 60:
+        risk += 15
+
+    if row["oil_temp_c"] > 70:
+        risk += 30
+    elif row["oil_temp_c"] > 55:
+        risk += 15
+
+    if row["rainfall_mm"] > 20:
+        risk += 20
+    elif row["rainfall_mm"] > 5:
+        risk += 10
+
+    if row["age_years"] > 15:
+        risk += 20
+    elif row["age_years"] > 8:
+        risk += 10
+
+    return risk
 
 
-# AI Prediction
+def risk_level(score):
+    if score >= 70:
+        return "HIGH"
+    elif score >= 40:
+        return "MEDIUM"
+    else:
+        return "LOW"
+
 
 def ai_risk_row(row):
     result = predict_risk({
@@ -29,6 +65,17 @@ def ai_risk_row(row):
     })
     return pd.Series([result["risk_label"], result["risk_probability"]])
 
+# LOAD DATA
+
+data = pd.read_csv("data/sample_transformer_data.csv")
+
+# RULE-BASED RISK
+
+data["risk_score"] = data.apply(calculate_risk, axis=1)
+data["risk_level"] = data["risk_score"].apply(risk_level)
+
+# AI-BASED RISK
+
 data[["ai_risk", "ai_confidence"]] = data.apply(ai_risk_row, axis=1)
 
 data["ai_risk_label"] = data["ai_risk"].map({
@@ -36,88 +83,88 @@ data["ai_risk_label"] = data["ai_risk"].map({
     0: "LOW"
 })
 
+# FINAL RISK (TOGGLE OUTPUT)
 
-# KPIs (AI-based)
+if risk_mode == "AI-Based":
+    data["final_risk"] = data["ai_risk_label"]
+else:
+    data["final_risk"] = data["risk_level"]
+
+# KPIs (USING FINAL RISK)
 
 total = len(data)
-high = (data["ai_risk_label"] == "HIGH").sum()
-low = (data["ai_risk_label"] == "LOW").sum()
+high = (data["final_risk"] == "HIGH").sum()
+medium = (data["final_risk"] == "MEDIUM").sum()
+low = (data["final_risk"] == "LOW").sum()
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 col1.metric("Total Transformers", total)
-col2.metric("High Risk (AI)", high)
-col3.metric("Low Risk (AI)", low)
+col2.metric("High Risk", high)
+col3.metric("Medium Risk", medium)
+col4.metric("Low Risk", low)
 
-
-# Charts
+# CHARTS
 
 st.divider()
-st.subheader("AI Risk Distribution")
+st.subheader("Risk Distribution")
 
-risk_counts = data["ai_risk_label"].value_counts().reset_index()
-risk_counts.columns = ["ai_risk_label", "count"]
+risk_counts = data["final_risk"].value_counts().reset_index()
+risk_counts.columns = ["final_risk", "count"]
 
 fig = px.bar(
     risk_counts,
-    x="ai_risk_label",
+    x="final_risk",
     y="count",
-    color="ai_risk_label",
-    title="AI-Based Transformer Risk Distribution"
+    color="final_risk",
+    title="Transformer Risk Distribution"
 )
 st.plotly_chart(fig, use_container_width=True)
 
 st.divider()
-st.subheader("Load vs Oil Temperature (AI Colored)")
+st.subheader("Load vs Oil Temperature")
 
 scatter_fig = px.scatter(
     data,
     x="load_percent",
     y="oil_temp_c",
-    color="ai_risk_label",
+    color="final_risk",
     size="ai_confidence",
     hover_data=["transformer_id", "age_years", "rainfall_mm"],
-    title="Transformer Load vs Oil Temperature (AI Prediction)",
+    title="Transformer Load vs Oil Temperature",
 )
 st.plotly_chart(scatter_fig, use_container_width=True)
 
-
-# Filters
+# FILTERS
 
 st.sidebar.header("Filters")
 
 selected_risk = st.sidebar.selectbox(
-    "Select AI Risk Level",
-    options=["ALL", "HIGH", "LOW"]
+    "Select Risk Level",
+    options=["ALL", "HIGH", "MEDIUM", "LOW"]
 )
 
 filtered_data = data.copy()
 
 if selected_risk != "ALL":
     filtered_data = filtered_data[
-        filtered_data["ai_risk_label"] == selected_risk
+        filtered_data["final_risk"] == selected_risk
     ]
 
-#sidebar toggle for risk model
-risk_mode = st.sidebar.radio(
-    "Risk Calculation Mode",
-    ["Rule-Based", "AI-Based"]
-)
+# TABLE
 
-
-
-# Table
-
-st.subheader("Transformer Risk Overview (AI-Based)")
+st.subheader("Transformer Risk Overview")
 
 def color_risk(val):
     if val == "HIGH":
         return "background-color: #ff4d4d; color: white;"
+    elif val == "MEDIUM":
+        return "background-color: #ffd966;"
     else:
         return "background-color: #7ddc7d;"
 
 styled_df = filtered_data.style.applymap(
     color_risk,
-    subset=["ai_risk_label"]
+    subset=["final_risk"]
 )
 
 st.dataframe(styled_df, use_container_width=True)
