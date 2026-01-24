@@ -97,6 +97,13 @@ if selected_risk != "ALL":
         filtered_data["ai_risk_label"] == selected_risk
     ]
 
+#sidebar toggle for risk model
+risk_mode = st.sidebar.radio(
+    "Risk Calculation Mode",
+    ["Rule-Based", "AI-Based"]
+)
+
+
 
 # Table
 
