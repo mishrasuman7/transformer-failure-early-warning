@@ -12,14 +12,14 @@ from ml.predict import predict_risk
 st.set_page_config(page_title="Transformer Early Warning", layout="wide")
 st.title("AI-Based Transformer Failure Early Warning System")
 
-# ----------------------------
+
 # Load data
-# ----------------------------
+
 data = pd.read_csv("data/sample_transformer_data.csv")
 
-# ----------------------------
+
 # AI Prediction
-# ----------------------------
+
 def ai_risk_row(row):
     result = predict_risk({
         "load_percent": row["load_percent"],
@@ -36,9 +36,9 @@ data["ai_risk_label"] = data["ai_risk"].map({
     0: "LOW"
 })
 
-# ----------------------------
+
 # KPIs (AI-based)
-# ----------------------------
+
 total = len(data)
 high = (data["ai_risk_label"] == "HIGH").sum()
 low = (data["ai_risk_label"] == "LOW").sum()
@@ -48,9 +48,9 @@ col1.metric("Total Transformers", total)
 col2.metric("High Risk (AI)", high)
 col3.metric("Low Risk (AI)", low)
 
-# ----------------------------
+
 # Charts
-# ----------------------------
+
 st.divider()
 st.subheader("AI Risk Distribution")
 
@@ -80,9 +80,9 @@ scatter_fig = px.scatter(
 )
 st.plotly_chart(scatter_fig, use_container_width=True)
 
-# ----------------------------
+
 # Filters
-# ----------------------------
+
 st.sidebar.header("Filters")
 
 selected_risk = st.sidebar.selectbox(
@@ -97,9 +97,9 @@ if selected_risk != "ALL":
         filtered_data["ai_risk_label"] == selected_risk
     ]
 
-# ----------------------------
+
 # Table
-# ----------------------------
+
 st.subheader("Transformer Risk Overview (AI-Based)")
 
 def color_risk(val):
