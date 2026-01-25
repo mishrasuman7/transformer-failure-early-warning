@@ -19,6 +19,13 @@ risk_mode = st.sidebar.radio(
     "Risk Calculation Mode",
     ["Rule-Based", "AI-Based"]
 )
+st.sidebar.divider()
+st.sidebar.subheader("Upload Transformer Data")
+
+uploaded_file = st.sidebar.file_uploader(
+    "Upload CSV file",
+    type=["csv"]
+)
 
 # FUNCTION DEFINITIONS
 
@@ -89,8 +96,29 @@ def explain_ai_risk(row):
 
 
 # LOAD DATA
+# data = pd.read_csv("data/sample_transformer_data.csv")
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    st.sidebar.success("Custom data loaded successfully")
+else:
+    data = pd.read_csv("data/sample_transformer_data.csv")
+    st.sidebar.info("Using sample dataset")
 
-data = pd.read_csv("data/sample_transformer_data.csv")
+required_columns = {
+    "transformer_id",
+    "load_percent",
+    "oil_temp_c",
+    "rainfall_mm",
+    "age_years"
+}
+
+if not required_columns.issubset(data.columns):
+    st.error(
+        "Uploaded CSV is missing required columns. "
+        "Required: transformer_id, load_percent, oil_temp_c, rainfall_mm, age_years"
+    )
+    st.stop()
+
 
 # RULE-BASED RISK
 # Explainability column
