@@ -19,3 +19,7 @@ matplotlib
 
 # Database
 sqlalchemy
+
+# Web App
+streamlit
+folium

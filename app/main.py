@@ -258,4 +258,3 @@ st.dataframe(
 st.info(
     "AI explanations are generated using operational parameters such as load, oil temperature, rainfall, and transformer age."
 )
-
