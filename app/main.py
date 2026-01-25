@@ -142,6 +142,32 @@ if risk_mode == "AI-Based":
 else:
     data["final_risk"] = data["risk_level"]
 
+
+# HIGH RISK ALERT
+
+high_risk_count = (data["final_risk"] == "HIGH").sum()
+
+if high_risk_count > 0:
+    st.error(
+        f"ALERT: {high_risk_count} transformer(s) detected with HIGH failure risk. "
+        "Immediate inspection recommended."
+    )
+else:
+    st.success("No high-risk transformers detected.")
+
+# ALERT LOG
+
+alert_log = data[data["final_risk"] == "HIGH"][
+    ["transformer_id", "final_risk", "ai_confidence", "ai_explanation"]
+]
+
+if not alert_log.empty:
+    st.subheader("🚨 High-Risk Alert Log")
+    st.dataframe(alert_log, use_container_width=True)
+
+st.info(
+    "In a real deployment, alerts can be automatically sent to maintenance teams via SMS, email, or SCADA systems."
+)
 # KPIs (USING FINAL RISK)
 
 total = len(data)
