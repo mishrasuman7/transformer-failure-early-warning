@@ -65,12 +65,36 @@ def ai_risk_row(row):
     })
     return pd.Series([result["risk_label"], result["risk_probability"]])
 
+# AI RISK EXPLANATION
+
+def explain_ai_risk(row):
+    reasons = []
+
+    if row["load_percent"] > 70:
+        reasons.append("High electrical load")
+
+    if row["oil_temp_c"] > 60:
+        reasons.append("Elevated oil temperature")
+
+    if row["rainfall_mm"] > 15:
+        reasons.append("Heavy rainfall / moisture risk")
+
+    if row["age_years"] > 10:
+        reasons.append("Aging transformer")
+
+    if not reasons:
+        return "Operating within safe limits"
+
+    return ", ".join(reasons)
+
+
 # LOAD DATA
 
 data = pd.read_csv("data/sample_transformer_data.csv")
 
 # RULE-BASED RISK
-
+# Explainability column
+data["ai_explanation"] = data.apply(explain_ai_risk, axis=1)
 data["risk_score"] = data.apply(calculate_risk, axis=1)
 data["risk_level"] = data["risk_score"].apply(risk_level)
 
@@ -167,4 +191,17 @@ styled_df = filtered_data.style.applymap(
     subset=["final_risk"]
 )
 
-st.dataframe(styled_df, use_container_width=True)
+#st.dataframe(styled_df, use_container_width=True)
+st.dataframe(
+    filtered_data[[
+        "transformer_id",
+        "final_risk",
+        "ai_confidence",
+        "ai_explanation"
+    ]],
+    use_container_width=True
+)
+st.info(
+    "AI explanations are generated using operational parameters such as load, oil temperature, rainfall, and transformer age."
+)
+
