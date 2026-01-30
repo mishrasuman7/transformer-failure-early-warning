@@ -47,6 +47,11 @@ The system helps engineers analyze transformer health, visualize risk patterns, 
 transformer-failure-early-warning/
 ├── app/
 │   └── main.py
+|── images/
+|   └── dashboard.png
+│   ├── load_vs_oil.png
+│   ├── risk_chart.png
+│   └── risk_overview.png
 ├── ml/
 │   ├── train_model.py
 │   ├── predict.py
@@ -115,13 +120,12 @@ streamlit run app/main.py
 ---
 
 ## Visualizations
-<<<<<<< HEAD
-=======
 - Dashboard
   ![Dashboard](images/dashboard.png)
->>>>>>> e4e1fa1e2203a6141d05681dc6cb6f78e4777f23
 - Risk distribution bar charts
+  ![Risk Chart](images/risk_chart.png)
 - Load vs Oil Temperature scatter plots
+  ![Plots](images/load_vs_oil.png)
 - Risk-level KPIs
 - Filterable and color-coded data tables
 
