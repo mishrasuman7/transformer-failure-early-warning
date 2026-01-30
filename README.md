@@ -1,65 +1,104 @@
 # ⚡ AI-Based Transformer Failure Early Warning System
 
-## 🧠 Overview
-Power transformers are critical infrastructure components, and their failure can lead to outages, financial loss, and safety risks.  
-This project is an **end-to-end AI-powered system** that predicts transformer failure risk using **rule-based engineering logic and machine learning**, presented through an **interactive dashboard** designed for both technical and non-technical users.
-
-The system helps operators **identify high-risk transformers early**, understand **why** a transformer is risky, and take preventive action.
+## Overview
+AI-powered system to predict transformer failure risk using both rule-based logic and machine learning.
+Built as a **job-prep / portfolio project** for a Full-Stack Software & AI Engineer role.
 
 ---
 
-## 🎯 Problem Statement
-Transformer failures are influenced by multiple factors such as:
-- Electrical overload
-- Thermal stress
-- Environmental conditions (rainfall, moisture)
-- Aging infrastructure
-
-Traditional monitoring systems lack **predictive capability and explainability**.  
-This project addresses that gap by combining **domain rules + AI predictions + explainable insights**.
-
----
-
-## ✨ Key Features
-
-### 🔹 Risk Prediction
-- Rule-based risk scoring using engineering thresholds
-- AI-based failure prediction using a trained ML model
-- Confidence score for AI predictions
-
-### 🔹 Explainable AI
-- Human-readable explanations for AI risk predictions
-- Highlights contributing factors (load, temperature, rainfall, age)
-
-### 🔹 Interactive Dashboard
-- KPI cards (Total, High, Medium, Low risk transformers)
-- Risk distribution charts
-- Load vs oil temperature analysis
-- Color-coded risk indicators
-
-### 🔹 User-Friendly Data Input
-- CSV upload support for non-technical users
-- Automatic validation of required columns
-- Sample dataset fallback
-
-### 🔹 Alerts & Monitoring
-- Visual alerts for high-risk transformers
-- Action-oriented risk insights
+## Features
+- Rule-based risk calculation
+- AI-based risk prediction
+- Confidence score for AI output
+- Explainable AI reasons
+- Streamlit dashboard
+- CSV upload support
+- Risk mode toggle (Rule-Based / AI-Based)
+- Charts, KPIs, and color-coded tables
 
 ---
 
-## 🏗️ System Architecture
+## Tech Stack
+- Python
+- Streamlit
+- Pandas
+- Plotly
+- Scikit-learn
+- Git & GitHub
 
-CSV Data Input
-      ↓
-Data Validation & Preprocessing
-      ↓
-Rule-Based Risk Engine  ──→ Risk Level
-AI Model (ML)           ──→ Risk + Confidence
-      ↓
-Final Risk Selection (Toggle)
-      ↓
-Explainability Layer
-      ↓
-Streamlit Dashboard (UI)
+---
 
+## Project Structure
+
+```
+transformer-failure-early-warning/
+├── app/
+│   └── main.py
+├── ml/
+│   ├── train_model.py
+│   ├── predict.py
+│   └── test_predict.py
+├── data/
+│   └── sample_transformer_data.csv
+├── requirements.txt
+├── README.md
+└── venv/  (not committed)
+```
+
+---
+
+## Input Data Format
+CSV must contain the following columns:
+
+```
+transformer_id,load_percent,oil_temp_c,rainfall_mm,age_years
+```
+
+---
+
+## How to Run
+
+### Clone Repository
+```
+git clone <repo-url>
+cd transformer-failure-early-warning
+```
+
+### Create & Activate Virtual Environment
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+### Install Dependencies
+```
+pip install -r requirements.txt
+```
+
+### Run Application
+```
+streamlit run app/main.py
+```
+
+---
+
+## Risk Modes
+- **Rule-Based** – Engineering thresholds
+- **AI-Based** – Machine learning predictions with confidence
+
+Switch modes using the sidebar toggle.
+
+---
+
+## Future Improvements
+- Improve ML accuracy & evaluation
+- Model retraining pipeline
+- FastAPI backend
+- Database integration
+- Authentication
+- Cloud deployment
+
+---
+
+## Purpose
+This project demonstrates **real-world AI + full-stack integration**, explainability, and clean engineering practices for interviews and job preparation.
