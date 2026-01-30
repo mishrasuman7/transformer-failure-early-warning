@@ -1,20 +1,33 @@
 # ⚡ AI-Based Transformer Failure Early Warning System
 
 ## Overview
-AI-powered system to predict transformer failure risk using both rule-based logic and machine learning.
-Built as a **job-prep / portfolio project** for a Full-Stack Software & AI Engineer role.
+This project is an **engineering-focused system** designed to monitor operational parameters of electrical transformers and predict potential failure risks.
+
+It combines:
+- Traditional **rule-based engineering logic**
+- **AI-based machine learning predictions**
+
+The system helps engineers analyze transformer health, visualize risk patterns, and make informed preventive maintenance decisions.
+
+---
+
+## Key Objectives
+- Early detection of transformer failure risks
+- Comparison between rule-based and AI-based risk assessment
+- Explainable AI outputs for engineering interpretation
+- Interactive visualization of operational data
 
 ---
 
 ## Features
-- Rule-based risk calculation
-- AI-based risk prediction
-- Confidence score for AI output
-- Explainable AI reasons
-- Streamlit dashboard
-- CSV upload support
-- Risk mode toggle (Rule-Based / AI-Based)
-- Charts, KPIs, and color-coded tables
+- Rule-based risk calculation using engineering thresholds
+- AI-based failure risk prediction
+- Risk confidence score
+- Explainable AI risk reasons
+- Interactive Streamlit dashboard
+- CSV data upload support
+- Toggle between Rule-Based and AI-Based risk modes
+- KPIs, charts, and color-coded risk tables
 
 ---
 
@@ -42,13 +55,13 @@ transformer-failure-early-warning/
 │   └── sample_transformer_data.csv
 ├── requirements.txt
 ├── README.md
-└── venv/  (not committed)
+└── venv/   (ignored in Git)
 ```
 
 ---
 
 ## Input Data Format
-CSV must contain the following columns:
+The input CSV file must contain the following columns:
 
 ```
 transformer_id,load_percent,oil_temp_c,rainfall_mm,age_years
@@ -56,11 +69,30 @@ transformer_id,load_percent,oil_temp_c,rainfall_mm,age_years
 
 ---
 
-## How to Run
+## Risk Calculation Modes
 
-### Clone Repository
+### 1. Rule-Based Mode
+Risk is calculated using predefined engineering thresholds based on:
+- Electrical load
+- Oil temperature
+- Rainfall / moisture exposure
+- Transformer age
+
+### 2. AI-Based Mode
+A trained machine learning model predicts:
+- Failure risk level
+- Confidence score
+- Risk explanation based on operational parameters
+
+The mode can be switched using the sidebar toggle.
+
+---
+
+## How to Run the Project
+
+### Clone the Repository
 ```
-git clone <repo-url>
+git clone <https://github.com/mishrasuman7/transformer-failure-early-warning.git>
 cd transformer-failure-early-warning
 ```
 
@@ -75,30 +107,34 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Run Application
+### Run the Application
 ```
 streamlit run app/main.py
 ```
 
 ---
 
-## Risk Modes
-- **Rule-Based** – Engineering thresholds
-- **AI-Based** – Machine learning predictions with confidence
-
-Switch modes using the sidebar toggle.
+## Visualizations
+- Risk distribution bar charts
+- Load vs Oil Temperature scatter plots
+- Risk-level KPIs
+- Filterable and color-coded data tables
 
 ---
 
-## Future Improvements
-- Improve ML accuracy & evaluation
-- Model retraining pipeline
-- FastAPI backend
-- Database integration
-- Authentication
+## Future Enhancements
+- Improve AI model accuracy and validation
+- Automated model retraining
+- Alert and notification system
+- Backend API integration
+- Database support for historical data
 - Cloud deployment
 
 ---
 
-## Purpose
-This project demonstrates **real-world AI + full-stack integration**, explainability, and clean engineering practices for interviews and job preparation.
+## Engineering Use Case
+This system can be used as a **decision-support tool** for:
+- Transformer health monitoring
+- Preventive maintenance planning
+- Operational risk assessment
+- Engineering analysis and research
