@@ -115,6 +115,8 @@ streamlit run app/main.py
 ---
 
 ## Visualizations
+- Dashboard
+  ![Dashboard](images/dashboard.png)
 - Risk distribution bar charts
 - Load vs Oil Temperature scatter plots
 - Risk-level KPIs
