@@ -50,7 +50,7 @@ This project addresses that gap by combining **domain rules + AI predictions + e
 
 ## 🏗️ System Architecture
 
-"CSV Data Input
+CSV Data Input
       ↓
 Data Validation & Preprocessing
       ↓
@@ -61,5 +61,5 @@ Final Risk Selection (Toggle)
       ↓
 Explainability Layer
       ↓
-Streamlit Dashboard (UI)"
+Streamlit Dashboard (UI)
 
