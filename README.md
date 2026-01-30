@@ -50,3 +50,16 @@ This project addresses that gap by combining **domain rules + AI predictions + e
 
 ## 🏗️ System Architecture
 
+"CSV Data Input
+      ↓
+Data Validation & Preprocessing
+      ↓
+Rule-Based Risk Engine  ──→ Risk Level
+AI Model (ML)           ──→ Risk + Confidence
+      ↓
+Final Risk Selection (Toggle)
+      ↓
+Explainability Layer
+      ↓
+Streamlit Dashboard (UI)"
+
